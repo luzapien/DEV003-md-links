@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "lurza-md-links",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -8,5 +8,37 @@
     "createdAt": "2023-02-07T18:15:01.196Z",
     "version": "5.5.0",
     "commit": "a63a770ea33332882790401851df337734b0b734"
-  }
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "jest": "^29.4.3"
+  },
+  "description": "librería desarrollada con Node.js para validar links de archivos markdown",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luzapien/DEV003-md-links.git"
+  },
+  "keywords": [
+    "http",
+    "links",
+    "markdown",
+    "NodeJs"
+  ],
+  "author": "María Zapién",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luzapien/DEV003-md-links/issues"
+  },
+  "homepage": "https://github.com/luzapien/DEV003-md-links#readme"
 }

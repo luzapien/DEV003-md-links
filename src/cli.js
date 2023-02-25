@@ -1,7 +1,7 @@
 
 const { mdLinks } = require('./index');
 
-mdLinks('./README.md').then((resp) => {
+mdLinks('./texto.md').then((resp) => {
   console.log(resp)
 })
 .catch((error) => {

@@ -5,16 +5,16 @@ const nodePath = require('path');
 // console.log(readFile);
 
 
+
 function mdLinks(path, options) {
   return new Promise(function (resolve, reject) {
     //Identificar si la ruta existe.
     if (api.pathValid(path)) {
       //comprobar si es absoluta
-      const checkAbsolutPath = api.isAbsolute(path)
-      console.log(checkAbsolutPath);
-      if (!checkAbsolutPath) {
-        const convertedToAbsolut = api.turnAbsolut(path)
-        console.log(convertedToAbsolut);
+      console.log(api.isAbsolute(path));
+      if (!api.isAbsolute(path)) {
+        console.log(api.turnAbsolut(path));
+       
       }
       const ext = nodePath.extname(path);
       console.log(ext);
@@ -33,30 +33,15 @@ function mdLinks(path, options) {
 
   });
 }
+function getLinks (path){
+  // const regExp =  /\[([^\[]+)\](\(.*\))/gm;
+  const stats = fs.statSync(path);
+  console.log('Is file?' + stats.isFile());
+  // const links = stats.match(regExp)
+}
+
 
 module.exports = {
-  mdLinks
+  mdLinks,
+  getLinks
 };
-
-
-// // console.log(isDirectory('./README.md'));
-// // // Mostrar los archivos del directorio
-// // const readDir = (path) => fs.readdirSync(path);
-// //  console.log(readDir('./README.md'));
-
-// //leer archivos archivos
-// //  fs.readFile(path,'utf-8', (error,data) => {
-// //   if(error) throw error;
-// //   console.log(data)
-// // })
-
-
-// const gettinLinks = (path) => {
-// const regExp = /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/g;
-// const files = getMdFiles(path);
-// console.log('===========> segunda función')
-// console.log(files);
-// const getLinks = files.match(regExp);
-// console.log(getLinks);
-// }
-// gettinLinks('./texto.md')

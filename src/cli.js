@@ -1,5 +1,5 @@
 
-const { mdLinks } = require('./index');
+const { mdLinks, getLinks } = require('./index');
 
 mdLinks('./texto.md').then((resp) => {
   console.log(resp)
@@ -8,3 +8,4 @@ mdLinks('./texto.md').then((resp) => {
   console.log(error)
 });
 // console.log(__dirname)
+getLinks('./texto.md');

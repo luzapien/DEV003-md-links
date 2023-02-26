@@ -21,6 +21,12 @@ const turnAbsolut = (path) => {
 //   console.log(data)
 // })
 
+// const readFile = (path) => {
+//   return fs.readFile(path,'utf-8', (error,data) => {
+//     if(error) throw error;
+//     console.log(data)
+//   });
+// }
 module.exports = {
   pathValid,
   isAbsolute,

@@ -20,7 +20,7 @@ function mdLinks(path, options) {
       }
       if (api.extname(path) === '.md') {
         getFile(path).then((result) => {
-          const regExp = /^\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
+          const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
           const urls = result.match(regExp)
           if (!urls) {
             console.log('No tiene urls')

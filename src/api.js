@@ -8,7 +8,7 @@ const pathValid = (path) => {
   return fs.existsSync(path)
 }
 //Comprobar si el path es relativo o absoluto
-const isAbsolute = (path) =>{
+const isAbsolute = (path) => {
   return nodePath.isAbsolute(path)
 }
 //Convertir la ruta a absoluta

@@ -1,8 +1,20 @@
-
+const { getFile } = require('./api');
 const api = require('./api');
-const { getFile } = require('./api')
 
 
+const  fileRegex = (path) => {getFile(path).then((result) => {
+  const regExp = /^\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
+  const urls = result.match(regExp)
+  if (!urls) {
+    console.log('No tiene urls')
+  } else {
+    console.log('URLs: ', urls)
+  }
+})
+  .catch((error) => {
+    console.log(error)
+  });
+}
 
 function mdLinks(path, options) {
   return new Promise(function (resolve, reject) {
@@ -13,25 +25,12 @@ function mdLinks(path, options) {
       console.log(api.isAbsolute(path));
       if (!api.isAbsolute(path)) {
         console.log(api.turnAbsolut(path));
-
       }
-      if(api.isFile(path)){
+      if (api.isFile(path)) {
         console.log('Is file?' + api.isFile(path))
       }
       if (api.extname(path) === '.md') {
-        getFile(path).then((result) => {
-          const regExp = /^\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
-          const urls = result.match(regExp)
-          if (!urls) {
-            console.log('No tiene urls')
-          } else {
-            console.log('URLs: ', urls)
-          }
-        })
-          .catch((error) => {
-            console.log(error)
-          });
-
+      fileRegex(path)
       } else {
         console.log('No es md')
       }
@@ -39,8 +38,6 @@ function mdLinks(path, options) {
       //Si no existe la ruta rechaza la promesa.
       reject('La ruta no existe');
     }
-
-
   });
 }
 // function getLinks(path) {
@@ -51,6 +48,7 @@ function mdLinks(path, options) {
 // }
 
 
+
 module.exports = {
-  mdLinks,
+  mdLinks
 };

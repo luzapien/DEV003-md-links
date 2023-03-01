@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "eslint": "^8.35.0",
-    "jest": "^29.4.3"
+    "jest": "^29.4.3",
+    "node-fetch": "^2.6.9"
   },
   "description": "librería desarrollada con Node.js para validar links de archivos markdown",
   "main": "index.js",

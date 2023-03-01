@@ -1,9 +1,16 @@
 const { getFile } = require('./api');
 const api = require('./api');
 
-hello
-const  fileRegex = (path) => {getFile(path).then((result) => {
-  const regExp = /^\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
+const fetch = require('node-fetch');
+
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => console.log(json))
+
+const  fileRegex = (path) => {
+  
+  getFile(path).then((result) => {
+  const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
   const urls = result.match(regExp)
   if (!urls) {
     console.log('No tiene urls')

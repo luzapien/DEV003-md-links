@@ -12,7 +12,7 @@ const fileRegex = (path) => {
 
   getFile(path).then((result) => {
     const arrayObjects = [];
-    const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+    const regExp = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
     const urls = result.match(regExp)
     if (!urls) {
       console.log('No tiene urls')

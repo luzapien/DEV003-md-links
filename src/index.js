@@ -1,27 +1,56 @@
 const { getFile } = require('./api');
 const api = require('./api');
 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
+// const { url } = require('inspector');
 
 fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(json => console.log(json))
+  .then(response => response.json())
+  .then(json => console.log(json))
 
-const  fileRegex = (path) => {
-  
+const fileRegex = (path) => {
+
   getFile(path).then((result) => {
-  const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
-  const urls = result.match(regExp)
-  if (!urls) {
-    console.log('No tiene urls')
-  } else {
-    console.log('URLs: ', urls)
-  }
-})
-  .catch((error) => {
-    console.log(error)
-  });
+    const arrayObjects = [];
+    const regExp = /\!?\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+    const urls = result.match(regExp)
+    if (!urls) {
+      console.log('No tiene urls')
+    } else {
+      console.log('URLs: ', urls)
+      for (let i = 0; i < urls.length; i++) {
+        arrayObjects.push({
+          href: urls[i][2],
+          text: urls[i][1],
+          file: path,
+        });
+        let start = urls[i].indexOf('[');
+        let end = urls[i].indexOf(']');
+        //  console.log('inicio y fin', start, end);
+        const obj = {
+          text: urls[i].substring(start + 1, end),
+          href: urls[i].substring(end + 2, urls[i].length - 1),
+          file: path // ruta del archivo, ruta absoluta debería ir acá
+        }
+        console.log(obj);
+        // urls.forEach((texto) => {
+        //   // console.log(texto);
+        //   const objectUrl = {
+        //     href:urls,
+        //     text: texto
+
+        //   }
+        //   console.log(objectUrl)
+        // })
+
+      }
+    }
+  })
+    .catch((error) => {
+      console.log(error)
+    });
 }
+// fileRegex('./texto.md');
 
 function mdLinks(path, options) {
   return new Promise(function (resolve, reject) {
@@ -37,7 +66,7 @@ function mdLinks(path, options) {
         console.log('Is file?' + api.isFile(path))
       }
       if (api.extname(path) === '.md') {
-      fileRegex(path)
+        fileRegex(path)
       } else {
         console.log('No es md')
       }

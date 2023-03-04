@@ -1,12 +1,12 @@
 const { getFile } = require('./api');
-const api = require('./api');
+
 
 // const fetch = require('node-fetch');
 // const { url } = require('inspector');
 
-fetch('https://jsonplaceholder.typicode.com/todos/1')
-  .then(response => response.json())
-  .then(json => console.log(json))
+// fetch('https://es.wikipedia.org/wiki/Markdown')
+//   .then((response) => console.log(response))
+  
 
 const fileRegex = (path) => {
 
@@ -30,7 +30,24 @@ const fileRegex = (path) => {
 
 
       }
-      console.log(arrayObjects);
+      // console.log(arrayObjects);
+      arrayObjects.forEach((object) => {
+        fetch(object.href)
+          .then((resultFetch) => {
+            object.status = resultFetch.status
+            object.ok = resultFetch.ok
+            console.log(object)
+          }).catch((error) => {
+            const objeto = {
+              href: object.href,
+              text: object.text,
+              file: object.file,
+              status: 404,
+              ok: false
+            } 
+            console.log(objeto)
+          })
+      })
     }
   })
     .catch((error) => {

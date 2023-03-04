@@ -1,21 +1,14 @@
 const { getFile } = require('./api');
 const api = require('./api');
 
-// const fetch = require('node-fetch');
-// const { url } = require('inspector');
-
-// fetch('https://jsonplaceholder.typicode.com/todos/1')
-//   .then(response => response.json())
-//   .then(json => console.log(json))
-
-const fileRegex = (path) => {
-
+const fileRegex = (path, options) => {
+  console.log('Looking for URLs...')
   getFile(path).then((result) => {
     const arrayObjects = [];
     const regExp = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
     const urls = result.match(regExp)
     if (!urls) {
-      console.log('No tiene urls')
+      console.log('This file does not have URLs')
     } else {
       // console.log('URLs: ', urls)
       for (let i = 0; i < urls.length; i++) {
@@ -29,65 +22,59 @@ const fileRegex = (path) => {
         })
         // console.log(arrayObjects);
       }
-      arrayObjects.forEach((object) => {
-        fetch(object.href)
-          .then((resultFetch) => {
-            object.status = resultFetch.status
-            object.ok = resultFetch.ok
-            console.log(object)
-          }).catch((error) => {
-            const objeto = {
-              href: object.href,
-              text: object.text,
-              file: object.file,
-              status: 404,
-              ok: false
-            }
-            console.log(objeto)
-          })
-      })
+      if (!options) {
+        console.log(arrayObjects)
+      } else {
+        arrayObjects.forEach((object) => {
+          fetch(object.href)
+            .then((resultFetch) => {
+              object.status = resultFetch.status
+              object.ok = resultFetch.ok
+              console.log(object)
+            }).catch((error) => {
+              const errorObject = {
+                href: object.href,
+                text: object.text,
+                file: object.file,
+                status: 404,
+                ok: false
+              }
+              console.log(errorObject)
+            })
+        })
+      }
     }
-
   })
     .catch((error) => {
       console.log(error)
     });
 }
- //fileRegex('./texto.md');
+//fileRegex('./texto.md', false );
 
 function mdLinks(path, options) {
+  console.log('Resolving path...')
   return new Promise(function (resolve, reject) {
     //Identificar si la ruta existe.
     if (api.pathValid(path)) {
-      resolve('La ruta si existe')
-      //comprobar si es absoluta
-      console.log(api.isAbsolute(path));
-      if (!api.isAbsolute(path)) {
-        console.log(api.turnAbsolut(path));
+      const pathValidation = {
+        pathRelative: api.turnAbsolut(path),
+        pathAbsolute: api.isFile(path),
+        pathIsFile: api.extname(path)
       }
-      if (api.isFile(path)) {
-        console.log('Is file?' + api.isFile(path))
-      }
+      console.log('Path info:', pathValidation)
       if (api.extname(path) === '.md') {
-        fileRegex(path)
+        resolve(fileRegex(path, options))
       } else {
         console.log('No es md')
       }
     } else {
-      //Si no existe la ruta rechaza la promesa.
       reject('La ruta no existe');
     }
   });
 }
-// function getLinks(path) {
-//   // const regExp =  /\[([^\[]+)\](\(.*\))/gm;
-//   const stats = fs.statSync(path);
-//   console.log('Is file?' + stats.isFile());
-//   // const links = stats.match(regExp)
-// }
-
 
 
 module.exports = {
-  mdLinks
+  mdLinks,
+  fileRegex
 };

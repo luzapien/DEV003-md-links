@@ -1,7 +1,7 @@
 
 const { mdLinks } = require('./index');
 // const { getFile } = require('./api');
-mdLinks('./texto.md', true).then((resp) => {
+mdLinks('./directorio', true).then((resp) => {
   console.log('RESPONSE FROM CLI ->', resp)
 })
   .catch((error) => {

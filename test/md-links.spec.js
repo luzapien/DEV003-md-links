@@ -6,6 +6,8 @@ const nodePath = require('path');
 //Dummydata
 const relativePath = './text.md'
 const filePath = 'C:\\Users\\lurza\\OneDrive\\Documentos\\GitHub\\DEV003-md-links\\texto.md'
+const link = '[Markdown](https://es.wikipedia.org/wiki/Markdown)'
+
 const linksFileFalse = [{
   href: 'https://es.wikipedia.org/wiki/Markdown',
   text: 'Markdown',
@@ -35,16 +37,33 @@ describe('path is a file', () => {
 })
 describe('read directories', () => {
   it('should read the files in a directory', () => {
-    expect(api.readDir('./directorio')).toMatchObject([ 'archivo.md', 'archivodos.md' ])
+    expect(api.readDir('./directorio')).toMatchObject(['archivo.md', 'archivodos.md'])
+  })
+})
+describe('read files', () => {
+  it('should match wirh regex', () => {
+    const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
+    expect(link).toMatch(regex)
+  })
+  it('should return an array objects using regex', () => {
+    expect(api.readFiles('./texto.md', link)).toMatchObject(linksFileFalse)
   })
 })
 
 describe('getFile', () => {
-  it('should reject files', () => {
+  it('should reject promise', () => {
     return (api.getFile('./texto.md')).catch((error) => {
       expect(error).toBe('error en el archivo')
     })
   })
+  // it('should resolve promise', () => {
+  //     api.getFile.mockImplementationOnce(() => Promise.resolve(
+  //       data = 'texto de prueba'
+  //     ));
+  // return (api.getFile('./texto.md')).then((res) => {
+  //   expect(res).toBe(data)
+  // })
+  // })
 })
 //Mock mdLinks
 jest.mock('../src/index.js', () => ({
@@ -52,13 +71,10 @@ jest.mock('../src/index.js', () => ({
 }));
 
 describe('mdLinks', () => {
-
-
   it('It should validate if is absolute', () => {
     expect(nodePath.isAbsolute(filePath)).toBe(true);
   });
   it('It should turn the path to absolute', () => {
-    // console.log(api.turnAbsolut('./texto.md'))
     expect(api.turnAbsolut(relativePath)).toBe('C:\\Users\\lurza\\OneDrive\\Documentos\\GitHub\\DEV003-md-links\\text.md')
   });
   it('It should check if is a .md extension', () => {

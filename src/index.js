@@ -12,7 +12,7 @@ function mdLinks(path, options) {
         turnPathToAbsolute: api.turnAbsolut(path),
         pathIsFile: api.isFile(path),
       }
-      // console.log('Path info:', pathValidation)
+       //console.log('Path info:', pathValidation)
       if (pathValidation.pathIsFile && api.extname(path) === '.md') {
         getFile(path).then((result) => {
           !options ? resolve(api.readFiles(path, result))

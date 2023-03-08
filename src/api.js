@@ -32,7 +32,7 @@ const getFile = (path) => {
   return new Promise(function (resolve, reject) {
     readFile(path, 'utf-8', (error, data) => {
       if (error) {
-        reject(error)
+        reject('error en el archivo')
       }
       resolve(data)
     });

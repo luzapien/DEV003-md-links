@@ -1,56 +1,55 @@
-
+const { getFile, readAllFiles } = require('./api');
 const api = require('./api');
-const { getFile } = require('./api')
-
 
 
 function mdLinks(path, options) {
+  console.log('Resolving path...')
   return new Promise(function (resolve, reject) {
     //Identificar si la ruta existe.
     if (api.pathValid(path)) {
-      resolve('La ruta si existe')
-      //comprobar si es absoluta
-      console.log(api.isAbsolute(path));
-      if (!api.isAbsolute(path)) {
-        console.log(api.turnAbsolut(path));
-
+      const pathValidation = {
+        pathAbsolute: api.isAbsolute(path),
+        turnPathToAbsolute: api.turnAbsolut(path),
+        pathIsFile: api.isFile(path),
       }
-      if(api.isFile(path)){
-        console.log('Is file?' + api.isFile(path))
-      }
-      if (api.extname(path) === '.md') {
+      //console.log('Path info:', pathValidation)
+      if (pathValidation.pathIsFile && api.extname(path) === '.md') {
         getFile(path).then((result) => {
-          const regExp = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gim
-          const urls = result.match(regExp)
-          if (!urls) {
-            console.log('No tiene urls')
-          } else {
-            console.log('URLs: ', urls)
-          }
+          !options.validate ? resolve(api.readFiles(path, result))
+            : api.fetchRequest(api.readFiles(path, result)).then((resArray) => resolve(resArray))
         })
-          .catch((error) => {
-            console.log(error)
-          });
-
       } else {
-        console.log('No es md')
+        const files = api.readAllFiles(path)
+        let promises = []
+        files.forEach((path) => {
+          // recursividad
+          promises.push(mdLinks(path, options))
+        });
+
+        Promise.all(promises).then((responses) => {
+          // resolve(...responses)
+          let responsesArr = []
+          for (let i = 0; i < responses.length; i++) {
+            const res = responses[i]
+            for (let j = 0; j < res.length; j++) {
+              const object = res[j]
+              responsesArr.push(object)
+            }
+          }
+
+          resolve(responsesArr)
+        })
       }
     } else {
-      //Si no existe la ruta rechaza la promesa.
       reject('La ruta no existe');
     }
-
-
-  });
+  })
 }
-// function getLinks(path) {
-//   // const regExp =  /\[([^\[]+)\](\(.*\))/gm;
-//   const stats = fs.statSync(path);
-//   console.log('Is file?' + stats.isFile());
-//   // const links = stats.match(regExp)
-// }
 
+
+// mdLinks('./directorio', true)
 
 module.exports = {
   mdLinks,
+  // fileRegex
 };

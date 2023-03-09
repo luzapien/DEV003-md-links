@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
-
   },
   "bootcamp": {
     "createdAt": "2023-02-07T18:15:01.196Z",
@@ -11,10 +10,17 @@
     "commit": "a63a770ea33332882790401851df337734b0b734"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build": "babel src -d dist"
+  },
+  "bin": {
+    "md-links": "src/cli.js"
   },
   "dependencies": {
-    "jest": "^29.4.3"
+    "colors": "^1.4.0",
+    "eslint": "^8.35.0",
+    "jest": "^29.4.3",
+    "node-fetch": "^2.6.9"
   },
   "description": "librería desarrollada con Node.js para validar links de archivos markdown",
   "main": "index.js",
@@ -24,8 +30,8 @@
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.0",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/node": "^7.20.7"
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2"
   },
   "repository": {
     "type": "git",

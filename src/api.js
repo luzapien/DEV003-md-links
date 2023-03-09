@@ -9,6 +9,7 @@ const path = require('path');
 const pathValid = (path) => {
   return fs.existsSync(path)
 }
+
 //Comprobar si el path es relativo o absoluto
 const isAbsolute = (path) => {
   return nodePath.isAbsolute(path)
@@ -95,6 +96,7 @@ const readDir = (path) => {
   const files = fs.readdirSync(path)
   return files
 }
+// console.log(readDir('./directorio'))
 
 function readAllFiles(path, arrayOfFiles = []){
 	const files = fs.readdirSync(path)

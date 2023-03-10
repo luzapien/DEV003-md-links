@@ -101,11 +101,11 @@ const readDir = (path) => {
 function readAllFiles(path, arrayOfFiles = []){
 	const files = fs.readdirSync(path)
 	files.forEach(file => {
-		const stat = fs.statSync(`${path}/${file}`)
+		const stat = fs.statSync(path + nodePath.sep + file)
 		if(stat.isDirectory()){
-			readAllFiles(`${path}/${file}`, arrayOfFiles)
+			readAllFiles(path + nodePath.sep + file, arrayOfFiles)
 		}else{
-			arrayOfFiles.push(`${path}/${file}`)
+			arrayOfFiles.push(path + nodePath.sep + file)
 		}
 	}
 	)

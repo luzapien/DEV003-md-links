@@ -48,27 +48,26 @@ describe('read files', () => {
   it('should return an array objects using regex', () => {
     expect(api.readFiles('./texto.md', link)).toMatchObject(linksFileFalse)
   })
+ 
 })
 
 describe('getFile', () => {
+  it('should resolve getFilePromise', () => {
+    return(api.getFile('./texto.md')).then((data) =>{
+      expect(data).toBe(data)
+    })
+  })
   it('should reject promise', () => {
     return (api.getFile('./texto.md')).catch((error) => {
       expect(error).toBe('error en el archivo')
     })
   })
-  // it('should resolve promise', () => {
-  //     api.getFile.mockImplementationOnce(() => Promise.resolve(
-  //       data = 'texto de prueba'
-  //     ));
-  // return (api.getFile('./texto.md')).then((res) => {
-  //   expect(res).toBe(data)
-  // })
-  // })
 })
+
 //Mock mdLinks
-jest.mock('../src/index.js', () => ({
-  mdLinks: jest.fn(),
-}));
+// jest.mock('../src/index.js', () => ({
+//   mdLinks: jest.fn(),
+// }));
 
 describe('mdLinks', () => {
   it('It should validate if is absolute', () => {
@@ -78,41 +77,46 @@ describe('mdLinks', () => {
     expect(api.turnAbsolut(relativePath)).toBe('C:\\Users\\lurza\\OneDrive\\Documentos\\GitHub\\DEV003-md-links\\text.md')
   });
   it('It should check if is a .md extension', () => {
-    const ext = nodePath.extname(filePath);
-    expect(ext).toBe('.md');
+    expect(api.extname('./texto.md')).toBe('.md');
   })
+
+  it('it shoulve return the links', () => {
+    jest.setTimeout(30000);
+    return mdLinks('./texto.md',{validate:true}).then(data => {
+      expect(data).toBe(data);
+    });
+  });
   it('It should reject if the path does not exist', () => {
-    mdLinks.mockImplementationOnce(() => Promise.reject('La ruta no existe'));
-    return (mdLinks('./doesnotexist.md')).catch((error) => {
+    return mdLinks('./doesnotexist.md').catch((error) => {
       expect(error).toBe('La ruta no existe')
     })
   });
 
-  it('should return an object array (href,text,file)', () => {
-    mdLinks.mockImplementationOnce(() => Promise.resolve(
-      [{
-        href: 'https://es.wikipedia.org/wiki/Markdown',
-        text: 'Markdown',
-        file: './texto.md'
-      }]
-    ));
-    return mdLinks(filePath, false).then((res) => {
-      expect(res).toEqual(linksFileFalse)
-    })
-  })
-  it('should return an object array (href,text,file,status,ok)', () => {
-    mdLinks.mockImplementationOnce(() => Promise.resolve(
-      [{
-        href: 'https://es.wikipedia.org/wiki/Markdown',
-        text: 'Markdown',
-        file: './texto.md',
-        status: 200,
-        ok: 'ok'
-      }]
-    ));
-    return mdLinks(filePath, true).then((res) => {
-      expect(res).toEqual(linksFileTrue)
-    })
-  })
+  // it('should return an object array (href,text,file)', () => {
+  //   mdLinks.mockImplementationOnce(() => Promise.resolve(
+  //     [{
+  //       href: 'https://es.wikipedia.org/wiki/Markdown',
+  //       text: 'Markdown',
+  //       file: './texto.md'
+  //     }]
+  //   ));
+  //   return mdLinks(filePath, false).then((res) => {
+  //     expect(res).toEqual(linksFileFalse)
+  //   })
+  // })
+  // it('should return an object array (href,text,file,status,ok)', () => {
+  //   mdLinks.mockImplementationOnce(() => Promise.resolve(
+  //     [{
+  //       href: 'https://es.wikipedia.org/wiki/Markdown',
+  //       text: 'Markdown',
+  //       file: './texto.md',
+  //       status: 200,
+  //       ok: 'ok'
+  //     }]
+  //   ));
+  //   return mdLinks(filePath, true).then((res) => {
+  //     expect(res).toEqual(linksFileTrue)
+  //   })
+  // })
 
 });

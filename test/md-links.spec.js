@@ -82,8 +82,17 @@ describe('mdLinks', () => {
 
   it('it shoulve return the links', () => {
     jest.setTimeout(30000);
-    return mdLinks('./texto.md',{validate:true}).then(data => {
-      expect(data).toBe(data);
+    return mdLinks('./test.md',{validate:true}).then(data => {
+      console.log(data)
+      expect(data).toMatchObject(    [
+        {
+          href: 'https://es.wikipedia.org/wiki/Markdown',
+          text: 'Markdown',
+          file: './test.md',
+          status: 200,
+          ok: 'ok'
+        }
+      ]);
     });
   });
   it('It should reject if the path does not exist', () => {

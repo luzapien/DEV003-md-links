@@ -1,14 +1,28 @@
 #!/usr/bin/env node
 const { mdLinks } = require('./index');
+const process = require('process');
 const colors = require('colors/safe')
 const pathToFile = process.argv[2]
 const argv = process.argv
 
 function cli() {
-  const validate = argv.includes("--validate");
-  const stats = argv.includes("--stats");
+  const validate = argv.includes('--validate');
+  const stats = argv.includes('--stats');
+  const help = argv.includes('--help');
+
+  if (help || argv.includes('--h')) {
+    console.log(colors.rainbow('\n======================== WELCOME =================================='));
+    console.log(colors.yellow('To execute : ') + ('md-links <path-to-file> [options(--validate)]'));
+    console.log(colors.yellow('Only md-links <path-to-File> : ') + colors.cyan('Show links (File,URL,Link text)'))
+    console.log(colors.red('--validate : ') + colors.cyan('Check and show links (File,URL,Status,Status code,Link text)'));
+    console.log(colors.red('--state : ') + colors.cyan('Total and unique links'));
+    console.log(colors.green('--validate --state : Total,unique and broken links'));
+    console.log(colors.rainbow('====================================================================='));
+    process.exit(0);
+  }
 
   mdLinks(pathToFile, { validate: validate }).then((resp) => {
+
     let uniqueUrlsArray = []
     let brokenUrlsArray = []
 
@@ -34,7 +48,7 @@ function cli() {
       console.log('File: ', colors.cyan(file))
       console.log('URL: ', colors.blue.underline(href))
       if (validate) {
-        console.log('Status: ', colors.yellow(ok)) 
+        console.log('Status: ', colors.yellow(ok))
         console.log('Status Code: ', status)
       }
       console.log('Link Text: ', colors.cyan(text))

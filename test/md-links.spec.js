@@ -63,6 +63,10 @@ describe('getFile', () => {
     })
   })
 })
+//Mock Fetch
+global.fetch = jest.fn(() => {
+  return Promise.resolve({ status: 200, ok: 'ok' })
+})
 
 //Mock mdLinks
 // jest.mock('../src/index.js', () => ({

@@ -63,9 +63,11 @@ function cli() {
         console.log(colors.red('Broken: ' + brokenUrlsArray.length))
       }
     }
+    process.exit(0);
   })
     .catch((error) => {
       console.log(error)
     });
+    
 }
 cli()

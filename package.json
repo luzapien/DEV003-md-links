@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-lurza",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -23,7 +23,7 @@
     "node-fetch": "^2.6.9"
   },
   "description": "librería desarrollada con Node.js para validar links de archivos markdown",
-  "main": "index.js",
+  "main": "src/cli.js",
   "directories": {
     "test": "test"
   },

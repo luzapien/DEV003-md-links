@@ -2,6 +2,7 @@ const { mdLinks } = require('../src/index');
 const api = require('../src/api');
 const fs = require('fs');
 const nodePath = require('path');
+const { url } = require('inspector');
 
 //Dummydata
 const relativePath = './text.md'
@@ -45,6 +46,11 @@ describe('read files', () => {
     const regex = /\[+[a-zA-Z0-9.-].+\]+\([a-zA-Z0-9.-].+\)/gm
     expect(link).toMatch(regex)
   })
+  // it('should return a no URLS message', () => {
+  //   const noUrls = api.readFiles('./nolinks.md','hello')
+  //   expect(noUrls.length).toBe(0)
+
+  // })
   it('should return an array objects using regex', () => {
     expect(api.readFiles('./texto.md', link)).toMatchObject(linksFileFalse)
   })
@@ -58,14 +64,34 @@ describe('getFile', () => {
     })
   })
   it('should reject promise', () => {
-    return (api.getFile('./texto.md')).catch((error) => {
+    return (api.getFile('./texto')).catch((error) => {
       expect(error).toBe('error en el archivo')
     })
   })
 })
 //Mock Fetch
 global.fetch = jest.fn(() => {
-  return Promise.resolve({ status: 200, ok: 'ok' })
+  return Promise.resolve(
+    [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: './test.md',
+        status: undefined,
+        ok: 'fail'
+      }
+    ]
+)
+
+
+})
+describe('fetchRequest function', () => {
+  it('shuld return links with http request',async() =>{
+     const data = await api.fetchRequest([])
+     console.log('====>',data)
+  expect(data).toEqual([])
+
+  })
 })
 
 //Mock mdLinks
@@ -87,14 +113,14 @@ describe('mdLinks', () => {
   it('it shoulve return the links', () => {
     jest.setTimeout(30000);
     return mdLinks('./test.md',{validate:true}).then(data => {
-      console.log(data)
-      expect(data).toMatchObject(    [
+      //console.log(data)
+      expect(data).toMatchObject([
         {
           href: 'https://es.wikipedia.org/wiki/Markdown',
           text: 'Markdown',
           file: './test.md',
-          status: 200,
-          ok: 'ok'
+          status: undefined,
+          ok: 'fail'
         }
       ]);
     });

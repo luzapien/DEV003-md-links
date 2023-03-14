@@ -11,13 +11,13 @@ function cli() {
   const help = argv.includes('--help');
 
   if (help || argv.includes('--h')) {
-    console.log(colors.rainbow('\n======================== WELCOME =================================='));
-    console.log(colors.yellow('To execute : ') + ('md-links <path-to-file> [options(--validate)]'));
-    console.log(colors.yellow('Only md-links <path-to-File> : ') + colors.cyan('Show links (File,URL,Link text)'))
+    console.log(colors.rainbow('\n======================== HELP =================================='));
+    console.log(colors.yellow('Command: ') + ('md-links <path-to-file> [options(--validate)]'));
+    console.log(colors.yellow('<Options>: --validate --stats'))
     console.log(colors.red('--validate : ') + colors.cyan('Check and show links (File,URL,Status,Status code,Link text)'));
     console.log(colors.red('--state : ') + colors.cyan('Total and unique links'));
     console.log(colors.green('--validate --state : Total,unique and broken links'));
-    console.log(colors.rainbow('====================================================================='));
+    console.log(colors.rainbow('======================================================================'));
     process.exit(0);
   }
 
@@ -53,7 +53,7 @@ function cli() {
       }
       console.log('Link Text: ', colors.cyan(text))
       console.log('Validated? ', validate ? colors.green('✅') : colors.red('❌'))
-      console.log(colors.magenta('=========================================================='))
+      console.log(colors.magenta('============================================================'))
     })
 
     if (stats) {

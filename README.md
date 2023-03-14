@@ -11,8 +11,9 @@ md-links-lurza is a library that allows extracting the links found in a Markdown
 
 ## 2.Usage instructions
 
-1) Installing package
-`npm install md-links-lurza`
+1) Installing package  
+
+`npm install md-links-lurza`  
 
 2) CLI (Command Line Interface)
 
@@ -30,13 +31,17 @@ $ md-links ./some/example.md
 ./some/example.md http://google.com/ Google
 ```
 
-#### Options
+#### Options  
+
+### `--h`or `--help`  
+
+Help menu  
 
 ##### `--validate`
 
-Si pasamos la opción `--validate`, el módulo debe hacer una petición HTTP para
-averiguar si el link funciona o no. Si el link resulta en una redirección a una
-URL que responde ok, entonces consideraremos el link como ok.
+If we pass the `--validate` option, the module should make an HTTP request to
+find out if the link works or not. If the link results in a redirect to a
+URL that responds ok, then we will consider the link as ok.
 
 For example:
 
@@ -49,8 +54,8 @@ $ md-links ./some/example.md --validate
 
 ##### `--stats`
 
-Si pasamos la opción `--stats` el output (salida) será un texto con estadísticas
-básicas sobre los links.
+If we pass the `--stats` option the output will be a text with statistics
+Basics about links.
 
 ```sh
 $ md-links ./some/example.md --stats
